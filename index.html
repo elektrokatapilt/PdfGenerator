@@ -2,19 +2,71 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>DJMLnet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BewerbunGenerator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f2f2f2; }
-        h2 { color: #333; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input { width: 100%; padding: 6px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; }
-        button { margin-top: 20px; padding: 12px 25px; font-size: 16px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #1e7e34; }
-        .section { background: white; padding: 15px; margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        #mainContent { display: none; }
-        #welcome { text-align: center; }
-    </style>
+body{
+font-family:Arial;
+padding:15px;
+background:#f2f2f2;
+max-width:900px;
+margin:auto;
+}
+
+h2{
+color:#333;
+text-align:center;
+}
+
+label{
+display:block;
+margin-top:12px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+margin-top:20px;
+padding:14px;
+font-size:16px;
+background:#28a745;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+button:hover{
+background:#1e7e34;
+}
+
+.section{
+background:white;
+padding:20px;
+margin-bottom:15px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+#mainContent{
+display:none;
+}
+
+#welcome{
+text-align:center;
+}
+</style>
 </head>
 <body>
 
@@ -22,7 +74,7 @@
 
 <!-- Auswahl zwischen Lebenslauf und Bewerbung -->
 <div id="welcome" class="section">
-    <p>Willkommen bei DJMLnet! Bitte wählen Sie zuerst, was Sie erstellen möchten:</p>
+    <p>Willkommen bei Dnet! Bitte wählen Sie zuerst, was Sie erstellen möchten:</p>
     <button onclick="chooseOption('lebenslauf')">Lebenslauf erstellen</button>
     <button onclick="chooseOption('bewerbung')">Bewerbung erstellen</button>
 </div>
@@ -40,9 +92,9 @@
     <label>Deine Adresse:</label>
     <input id="personalAddress" type="text">
     <label>Deine Telefonnummer:</label>
-    <input id="personalPhone" type="text">
+    <input id="personalPhone" type="tel">
     <label>Deine E-Mail:</label>
-    <input id="personalEmail" type="text">
+    <input id="personalEmail" type="email">
     <label>Ort:</label>
     <input id="place" type="text">
     <label>Datum:</label>
@@ -68,6 +120,7 @@ window.onload = function() {
 function chooseOption(option) {
     if (option === 'lebenslauf') {
         alert("Lebenslauf-Funktion wird später hinzugefügt.");
+        return;
     }
     // Verstecke Auswahl und zeige Bewerbung-Form
     document.getElementById('welcome').style.display = 'none';
@@ -201,6 +254,7 @@ Außerdem bin ich belastbar, hilfsbereit und arbeite gerne im Team. Gleichzeitig
 Ich bin sehr motiviert, meine Fähigkeiten und meine Einsatzbereitschaft in Ihr Unternehmen einzubringen. Gleichzeitig sehe ich diese Stelle als eine gute Möglichkeit, wertvolle Erfahrungen zu sammeln und meine Kenntnisse weiter auszubauen.
 
 Über eine positive Rückmeldung und die Möglichkeit, mich persönlich bei Ihnen vorzustellen, würde ich mich sehr freuen.
+
 Mit freundlichen Grüßen,
 ${personalName}`,
                     `Sehr geehrte Damen und Herren,
@@ -349,7 +403,11 @@ async function generatePDF() {
     y += 12;
 
     // Bewerbungstext
-    const bewerbungText = generateRandomBewerbung(jobTitle, document.getElementById('personalName').value);
+   const bewerbungText = generateRandomBewerbung(
+    jobTitle,
+    document.getElementById('personalName').value,
+    document.getElementById('practiceType').value
+);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
     const paragraphs = bewerbungText.split("\n\n");
